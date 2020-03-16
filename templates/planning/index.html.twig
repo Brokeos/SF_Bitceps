@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="content-wrap nopadding">
+            <div class="section nomargin">
+                <div class="container clearfix">
+                    <div class="divcenter center" style="max-width: 900px;">
+                        <h2 style="font-size: 42px;" class="nobottommargin t700 ls1">Planning{% if trainer is defined %} de {{ trainer.name }}{% endif %}</h2>
+                        <span style="font-size: 16px;" class="t300 ls1 notopmargin">Participez aux cours de la semaine</span>
+                    </div>
+                </div>
+            </div>
+            <div id="section-schedule" class="section page-section nobg pt-0 topmargin-lg clearix">
+                <div class="container clearfix">
+                    <div class="schedule-wrap divcenter rounded" style="max-width: 1000px;">
+                        <div class="center">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.subscription is not empty %}
+                            <div class="badge badge-pill badge-info">Une fois inscrit aux cours, vous serez automatiquent réinscrit à chaque nouvelle semaine.</div>
+                            {% else %}
+                            <div class="badge badge-pill badge-danger">Vous devez d'abord vous abonner pour participer à des cours.</div>
+                            {% endif %}
+                        </div>
+                        <div class="tabs tabs-bb mb-0 clearfix" id="tab-9">
+                            <ul class="tab-nav d-flex clearfix">
+                                {% for day, date in dates %}
+                                <li class="flex-fill"><a href="#tabs-{{ day }}"><span class="d-none d-md-inline-block"></span>{{ day | capitalize }}  {{ date }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tab-container mt-3">
+                                {% for day, lessons in groupedLessons %}
+                                <div class="tab-content clearfix" id="tabs-{{ day }}">
+                                    <dl class="row mb-0">
+                                        {% for lesson in lessons %}
+                                        <dd class="col-sm-12">
+                                            <div class="row justify-content-between align-items-center">
+                                                <div class="col-sm-2">
+                                                    <div class="schedule-time font-primary float-right"><strong>{{ lesson.hourStart }} - {{ lesson.hourEnd }}</strong></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="schedule-desc">{{ lesson.name }}</div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="schedule-desc"><a href="{{ url('planning.trainer', {trainer: lesson.trainer.id})}}"><span class="badge badge-trainer float-right" style="background-color: {{ lesson.trainer.color }}">{{ lesson.trainer.name }}</span></a></div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                                                        {% if participations is defined and lesson in participations %}
+                                                            <a href="{{ url('user.participation.del', {lesson: lesson.id}) }}" class="button button-small button-black button-dark bg-dark mt-2 mt-sm-0 float-none float-sm-right">Annuler</a>
+                                                        {% else %}
+                                                            {% if app.user.subscription is defined and app.user.subscription is not null %}
+                                                                <a href="{{ url('user.participation.add', {lesson: lesson.id })}}" class="button button-small button-black button-dark bg-dark mt-2 mt-sm-0 float-none float-sm-right">Participer</a>
+                                                            {% else %}
+                                                                <a href="{{ url('tarifs')}}" class="button button-small button-black button-dark bg-dark mt-2 mt-sm-0 float-none float-sm-right">Nos tarifs</a>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <a href="{{ url('security.login')}}" class="button button-small button-black button-dark bg-dark mt-2 mt-sm-0 float-none float-sm-right">Connexion</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </dd>
+                                        {% endfor %}
+                                    </dl>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

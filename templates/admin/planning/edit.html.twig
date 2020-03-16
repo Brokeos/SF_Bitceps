@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Editer d'un cours{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    {% include 'admin/navbar.html.twig' %}
+                    <div class="nobottommargin clearfix col-md-9">
+                        <h4>Edition d'un cours</h4>
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button class="btn btn-primary">Modifier</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

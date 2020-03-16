@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Tarifs{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    {% include 'admin/navbar.html.twig' %}
+                    <div class="nobottommargin clearfix col-md-9">
+                        <h4>Tarifs</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prix</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for tarif in tarifs %}
+                                <tr>
+                                    <td>{{ tarif.name }}</td>
+                                    <td>{{ tarif.price }}€</td>
+                                    <td><a href="{{ url('admin.tarifs.edit', {tarif: tarif.id}) }}" class="btn btn-primary btn-sm">Editer</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

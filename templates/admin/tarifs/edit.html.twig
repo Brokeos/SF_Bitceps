@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Editer un tarif{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    {% include 'admin/navbar.html.twig' %}
+                    <div class="nobottommargin clearfix col-md-9">
+                        <h4>Edition du tarif</h4>
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

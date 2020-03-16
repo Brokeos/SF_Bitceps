@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Participations{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    {% include 'admin/navbar.html.twig' %}
+                    <div class="nobottommargin clearfix col-md-9">
+                        <h4>Liste des participants au cours {{ lesson.name }} de {{ lesson.trainer.name }} les {{ lesson.day | capitalize }}s de {{ lesson.hourStart }} à {{ lesson.hourEnd }}</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Age</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for participation in lesson.users %}
+                                <tr>
+                                    <td>{{ participation.lastname }}</td>
+                                    <td>{{ participation.firstname }}</td>
+                                    <td>{{ getUserAge(participation) }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

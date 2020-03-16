@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    <div class="nobottommargin clearfix col-md-10 offset-1">
+                        <h4>Mon profil</h4>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="lastname">Nom</label>
+                                    <input type="text" class="form-control" id="lastname" value="{{ app.user.lastname }}" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="firstname">Prénom</label>
+                                    <input type="text" class="form-control" id="firstname" value="{{ app.user.firstname }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="email">Mail</label>
+                                    <input type="text" class="form-control" id="email" value="{{ app.user.email }}" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="gender">Genre</label>
+                                    <input type="text" class="form-control" id="gender" value="{% if app.user.gender == 'male' %}Homme{% else %}Femme{% endif %}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="birthdate">Date de naissance</label>
+                                    <input type="date" class="form-control" id="birthdate" value="{{ app.user.birthdate | date('Y-m-d') }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="subscription">Abonnement</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="subscription" value="{% if app.user.subscription is null %}Aucun{% else %}{{ app.user.subscription.name }}{% endif %}" readonly>
+                                        {% if app.user.subscription is not null %}
+                                            <div class="input-group-append">
+                                                <a href="{{ url('user.cancelsub') }}" class="btn btn-danger">Annuler</a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <h4>Modifier le mot de passe</h4>
+                        {% if success is defined and success %}
+                            <div class="center">
+                                <div class="badge badge-pill badge-success">Mot de passe modifié avec succès !</div>
+                            </div>
+                        {% endif %}
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

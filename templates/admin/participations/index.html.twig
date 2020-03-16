@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Participations{% endblock %}
+
+{% block body %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix" style="max-width: 1500px;">
+                <div class="row">
+                    {% include 'admin/navbar.html.twig' %}
+                    <div class="nobottommargin clearfix col-md-9">
+                        <h4>Participations</h4>
+                        <div class="tabs tabs-bb mb-0 clearfix">
+                            <ul class="tab-nav d-flex clearfix">
+                                {% for day in days %}
+                                    <li class="flex-fill">
+                                        <a href="#tabs-{{ day }}"><span class="d-none d-md-inline-block"></span>{{ day | capitalize }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tab-container mt-3">
+                                {% for day, lessons in groupedLessons %}
+                                <div class="tab-content clearfix" id="tabs-{{ day }}">
+                                    <dl class="row mb-0">
+                                        {% for lesson in lessons %}
+                                        <dd class="col-sm-12">
+                                            <div class="row justify-content-between align-items-center">
+                                                <div class="col-sm-2">
+                                                    <div class="schedule-time font-primary float-right"><strong>{{ lesson.hourStart }} - {{ lesson.hourEnd }}</strong></div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="schedule-desc">{{ lesson.name }}</div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="schedule-desc"><a href="{{ url('admin.planning.trainer', {trainer: lesson.trainer.id}) }}"><span class="badge badge-trainer float-right" style="background-color: {{ lesson.trainer.color }}">{{ lesson.trainer.name }}</span></a></div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {% if ((lesson.users | length) > 0) %}
+                                                        <a href="{{ url('admin.participations.lesson', {lesson: lesson.id}) }}" class="btn btn-primary btn-sm">{{ lesson.users | length }} Participants</a>
+                                                    {% else %}
+                                                        <div class="badge badge-pill badge-danger">Pas de participants</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </dd>
+                                        {% endfor %}
+                                    </dl>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
